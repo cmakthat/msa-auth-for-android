@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 
+group = 'com.github.cmakthat'
+
 buildscript {
     repositories {
         jcenter()
