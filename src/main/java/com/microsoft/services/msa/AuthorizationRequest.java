@@ -42,6 +42,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.apache.http.client.HttpClient;
 
@@ -77,12 +78,14 @@ class AuthorizationRequest implements ObservableOAuthRequest, OAuthRequestObserv
 
             private final CookieManager cookieManager;
             private final Set<String> cookieKeys;
+            private final StringBuffer finalURL;
 
             public AuthorizationWebViewClient() {
                 // I believe I need to create a syncManager before I can use a cookie manager.
                 CookieSyncManager.createInstance(getContext());
                 this.cookieManager = CookieManager.getInstance();
                 this.cookieKeys = new HashSet<String>();
+                this.finalURL = new StringBuffer();
             }
 
             /**
@@ -99,6 +102,8 @@ class AuthorizationRequest implements ObservableOAuthRequest, OAuthRequestObserv
             public void onPageFinished(WebView view, String url) {
                 Uri uri = Uri.parse(url);
 
+                Toast test = Toast.makeText(activity, url, Toast.LENGTH_LONG);
+                test.show();
                 // only clear cookies that are on the logout domain.
                 if (mOAuthConfig.getLogoutUri().getHost().equals(uri.getHost())) {
                     this.saveCookiesInMemory(this.cookieManager.getCookie(url));
@@ -176,6 +181,7 @@ class AuthorizationRequest implements ObservableOAuthRequest, OAuthRequestObserv
                 Editor editor = preferences.edit();
                 value = TextUtils.join(PreferencesConstants.COOKIE_DELIMITER, this.cookieKeys);
                 editor.putString(PreferencesConstants.COOKIES_KEY, value);
+
                 editor.commit();
 
                 // we do not need to hold on to the cookieKeys in memory anymore.
