@@ -38,6 +38,7 @@ public class LiveConnectSession {
 
     private String accessToken;
     private String authenticationToken;
+    private String accountID;
 
     /** Keeps track of all the listeners, and fires the property change events */
     private final PropertyChangeSupport changeSupport;
@@ -229,6 +230,7 @@ public class LiveConnectSession {
      * @param response to load from
      */
     void loadFromOAuthResponse(OAuthSuccessfulResponse response) {
+        this.accountID = response.toString();
         this.accessToken = response.getAccessToken();
         this.tokenType = response.getTokenType().toString().toLowerCase();
 
