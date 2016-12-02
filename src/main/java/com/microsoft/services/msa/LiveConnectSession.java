@@ -230,7 +230,7 @@ public class LiveConnectSession {
      * @param response to load from
      */
     void loadFromOAuthResponse(OAuthSuccessfulResponse response) {
-        this.accountID = response.toString();
+        this.accountID = response.getUserID();
         this.accessToken = response.getAccessToken();
         this.tokenType = response.getTokenType().toString().toLowerCase();
 

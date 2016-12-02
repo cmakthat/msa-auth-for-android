@@ -45,6 +45,7 @@ class OAuthSuccessfulResponse implements OAuthResponse {
         private int expiresIn = UNINITIALIZED;
         private String refreshToken;
         private String scope;
+        private String userID;
         private final OAuth.TokenType tokenType;
 
         public Builder(String accessToken, OAuth.TokenType tokenType) {
@@ -83,6 +84,11 @@ class OAuthSuccessfulResponse implements OAuthResponse {
             this.scope = scope;
             return this;
         }
+
+        public Builder userID(String userID){
+            this.userID = userID;
+            return this;
+        }
     }
 
     /** Used to declare expiresIn uninitialized */
@@ -92,6 +98,7 @@ class OAuthSuccessfulResponse implements OAuthResponse {
             Map<String, String> fragmentParameters) throws LiveAuthException {
         String accessToken = fragmentParameters.get(OAuth.ACCESS_TOKEN);
         String tokenTypeString = fragmentParameters.get(OAuth.TOKEN_TYPE);
+        String userIDString = fragmentParameters.get("user_id");
 
         // must have accessToken and tokenTypeString to be a valid OAuthSuccessfulResponse
         if (accessToken == null) throw new AssertionError();
@@ -106,6 +113,7 @@ class OAuthSuccessfulResponse implements OAuthResponse {
 
         Builder builder =
                 new Builder(accessToken, tokenType);
+        builder.userID(userIDString);
 
         String authenticationToken = fragmentParameters.get(OAuth.AUTHENTICATION_TOKEN);
         if (authenticationToken != null) {
@@ -227,6 +235,8 @@ class OAuthSuccessfulResponse implements OAuthResponse {
 
     private final String authenticationToken;
 
+    private final String userID;
+
     /**
      * OPTIONAL.  The lifetime in seconds of the access token.  For
      * example, the value "3600" denotes that the access token will
@@ -257,6 +267,7 @@ class OAuthSuccessfulResponse implements OAuthResponse {
         this.refreshToken = builder.refreshToken;
         this.expiresIn = builder.expiresIn;
         this.scope = builder.scope;
+        this.userID = builder.userID;
     }
 
     @Override
@@ -266,6 +277,10 @@ class OAuthSuccessfulResponse implements OAuthResponse {
 
     public String getAccessToken() {
         return this.accessToken;
+    }
+
+    public String getUserID(){
+        return this.userID;
     }
 
     public String getAuthenticationToken() {
