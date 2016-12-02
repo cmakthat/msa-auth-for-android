@@ -42,7 +42,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import org.apache.http.client.HttpClient;
 
@@ -102,8 +101,6 @@ class AuthorizationRequest implements ObservableOAuthRequest, OAuthRequestObserv
             public void onPageFinished(WebView view, String url) {
                 Uri uri = Uri.parse(url);
 
-                Toast test = Toast.makeText(activity, url, Toast.LENGTH_LONG);
-                test.show();
                 // only clear cookies that are on the logout domain.
                 if (mOAuthConfig.getLogoutUri().getHost().equals(uri.getHost())) {
                     this.saveCookiesInMemory(this.cookieManager.getCookie(url));
