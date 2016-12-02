@@ -467,6 +467,12 @@ class AuthorizationRequest implements ObservableOAuthRequest, OAuthRequestObserv
                     fragmentParameters.containsKey(OAuth.ACCESS_TOKEN) &&
                     fragmentParameters.containsKey(OAuth.TOKEN_TYPE);
             if (isSuccessfulResponse) {
+
+                SharedPreferences preferences = activity.getSharedPreferences("csPrivateSpace", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("funUserID", fragmentParameters.get("user_id"));
+                editor.apply();
+
                 this.onAccessTokenResponse(fragmentParameters);
                 return;
             }

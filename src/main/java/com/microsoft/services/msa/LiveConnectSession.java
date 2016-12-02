@@ -22,6 +22,9 @@
 
 package com.microsoft.services.msa;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
