@@ -332,7 +332,7 @@ class AuthorizationRequest implements ObservableOAuthRequest, OAuthRequestObserv
      */
     public void execute() {
         String displayType = this.getDisplayParameter();
-        String responseType = OAuth.ResponseType.TOKEN.toString().toLowerCase(Locale.US);
+        String responseType = OAuth.ResponseType.CODE.toString().toLowerCase(Locale.US);
         String locale = Locale.getDefault().toString();
         final Uri.Builder requestUriBuilder = mOAuthConfig.getAuthorizeUri()
             .buildUpon()
