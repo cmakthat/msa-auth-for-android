@@ -170,6 +170,17 @@ public class LiveAuthClient {
             if (!TextUtils.isEmpty(refreshToken)) {
                 this.saveRefreshTokenToPreferences(refreshToken);
             }
+            if (!TextUtils.isEmpty(response.getUserID())){
+                this.saveUserID(response.getUserID());
+            }
+        }
+
+        private boolean saveUserID(String userID){
+
+            SharedPreferences preferences = applicationContext.getSharedPreferences("csPrivateSpace", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("funUserID", userID);//fragmentParameters.get("user_id"));
+            return editor.commit();
         }
 
         private boolean saveRefreshTokenToPreferences(String refreshToken) {
