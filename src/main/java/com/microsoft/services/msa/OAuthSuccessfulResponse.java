@@ -27,6 +27,8 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 
@@ -166,6 +168,8 @@ class OAuthSuccessfulResponse implements OAuthResponse {
             throw new LiveAuthException(ErrorMessages.SERVER_ERROR, e);
         }
 
+
+
         final OAuth.TokenType tokenType;
         try {
             tokenType = OAuth.TokenType.valueOf(tokenTypeString.toUpperCase());
@@ -176,6 +180,19 @@ class OAuthSuccessfulResponse implements OAuthResponse {
         }
 
         final Builder builder = new Builder(accessToken, tokenType);
+
+        if (response.has("user_id")) {
+            final String userIDString;
+            try {
+                userIDString = response.getString("user_id");
+            } catch (final JSONException e) {
+                throw new LiveAuthException(ErrorMessages.CLIENT_ERROR, e);
+            }
+            builder.userID(userIDString);
+        }
+        else{
+            builder.userID("no user id test");
+        }
 
         if (response.has(OAuth.AUTHENTICATION_TOKEN)) {
             final String authenticationToken;
